@@ -1,14 +1,15 @@
 ```mermaid
 ---
 config:
-  layout: elk
-  class:
+    layout: elk
+    class:
     hideEmptyMembersBox: true
 ---
 
 classDiagram
 direction TB
     class NetworkAndy{
+
     }
     class Runnable
     NetworkAndy --|> Runnable
@@ -17,6 +18,17 @@ direction TB
       -player: List~Player~
 
       +getPlayer() List~Player~
+    }
+
+    class Server{
+        -players: List~Player~ 
+        -connections: List~Socket~
+        -game: DoppelkopfGame
+
+        +Server()
+        +startGame()
+        +listenForPlayers()
+
     }
 
     class Player {
@@ -28,22 +40,22 @@ direction TB
         +getCurrentPoints() int
     }
     class Hand {
-	    -cards : List~Card~
-	    +Hand(l: List~Card~)
-	    +getTrumps() int
-	    +getPlains() int
-      +getPlains(color: Color)
-	    +playCard(c: Card) void
-	    +playCard(i: int) void
-	    +getCards() List~Card~
+        -cards : List~Card~
+        +Hand(l: List~Card~)
+        +getTrumps() int
+        +getPlains() int
+        +getPlains(color: Color)
+        +playCard(c: Card) void
+        +playCard(i: int) void
+        +getCards() List~Card~
     }
     class Card {
-	    -color: Color
-	    -type: CardType
-	    +Card(c: Color,  t: CardType)
-	    +getValue() int
-	    +getColor() Color
-	    +getType() CardType
+        -color: Color
+        -type: CardType
+        +Card(c: Color,  t: CardType)
+        +getValue() int
+        +getColor() Color
+        +getType() CardType
     }
     Card <-- Hand
     Hand <-- Player

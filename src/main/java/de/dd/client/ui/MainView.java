@@ -1,4 +1,4 @@
-package de.dd.ui;
+package de.dd.client.ui;
 
 import java.awt.Color;
 import java.awt.Point;
