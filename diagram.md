@@ -3,12 +3,22 @@
 config:
   layout: elk
   class:
-    hideEmptyMembersBox: false
+    hideEmptyMembersBox: true
 ---
+
 classDiagram
 direction TB
-    class DoppelkopfGame {
+    class NetworkAndy{
     }
+    class Runnable
+    NetworkAndy --|> Runnable
+
+    class DoppelkopfGame {
+      -player: List~Player~
+
+      +getPlayer() List~Player~
+    }
+
     class Player {
 	    +hand : Hand
 	    -score: int
@@ -22,6 +32,7 @@ direction TB
 	    +Hand(l: List~Card~)
 	    +getTrumps() int
 	    +getPlains() int
+      +getPlains(color: Color)
 	    +playCard(c: Card) void
 	    +playCard(i: int) void
 	    +getCards() List~Card~
@@ -36,4 +47,5 @@ direction TB
     }
     Card <-- Hand
     Hand <-- Player
+
 ```
