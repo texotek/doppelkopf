@@ -11,4 +11,9 @@ public class Player {
     public Player() {
         hand = new Hand(new ArrayList<Card>());
     }
+
+    @Override
+    public String toString() {
+        return "Player: " + "\n" + "Score: " + score + "\n" + hand;
+    }
 }

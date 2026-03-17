@@ -27,4 +27,9 @@ public class Client {
         this.connection = connection;
         this.player = player;
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + "\n" + connection + "\n" + player;
+    }
 }

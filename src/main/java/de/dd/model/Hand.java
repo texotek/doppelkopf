@@ -47,4 +47,13 @@ public class Hand {
             throw new IllegalArgumentException("Card you want to remove did not exist in Hand");
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Card c : cards) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
 }

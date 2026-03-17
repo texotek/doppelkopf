@@ -22,9 +22,13 @@ public class Server {
             IO.println(e);
         }
 
-        IO.print("This Server is so what from starting");
+        clients = new ArrayList<>();
+
+        IO.println("This Server is so what from starting");
 
         waitForPlayers();
+
+        IO.println("Ending Server");
     }
 
     private void waitForPlayers() {
@@ -34,34 +38,45 @@ public class Server {
             BufferedReader in;
             try {
                 connection = server.accept();
+                IO.println("Connection received");
+                IO.println(connection);
                 out = new PrintWriter(connection.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             } catch (IOException e) {
                 IO.println(e);
                 return;
             }
-            registerNewPlayer(in, out, connection);
+            if (!registerNewPlayer(in, out, connection))
+                i--;
         }
     }
 
-    private void registerNewPlayer(BufferedReader in, PrintWriter out, Socket connection) {
+    private boolean registerNewPlayer(BufferedReader in, PrintWriter out, Socket connection) {
         String cmd;
+        IO.println("Registering new Player");
         try {
             cmd = in.readLine();
+            IO.println(cmd);
         } catch (IOException e) {
             IO.println(e);
             out.print("ERR connection");
-            return;
+            return false;
         }
         if (!cmd.startsWith("JOIN")) {
+            IO.println(cmd);
             out.print("ERR invalid cmd");
+            return false;
         }
         if (cmd.length() < 7) {
+            IO.println(cmd);
             out.print("ERR invalid name");
         }
-        String name = cmd.substring(6);
+        String name = cmd.substring(5);
         Client client = new Client(name, in, out, connection);
         this.clients.add(client);
+        IO.println("New player registered");
+        IO.println(client);
+        return true;
     }
 
 }
