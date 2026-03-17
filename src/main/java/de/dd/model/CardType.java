@@ -7,7 +7,9 @@ public enum CardType {
     JACK(2),
     QUEEN(3),
     KING(4);
+
     private final int cardValue;
+
     private CardType(int cardValue) {
         this.cardValue = cardValue;
     }

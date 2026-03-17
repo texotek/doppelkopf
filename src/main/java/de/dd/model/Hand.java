@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Hand {
     final private List<Card> cards;
+
     public Hand(List<Card> cards) {
         this.cards = cards;
     }
@@ -12,7 +13,8 @@ public class Hand {
     public int getPlains() {
         int cPlain = 0;
         for (Card card : cards) {
-            if (!card.isTrump()) cPlain++;
+            if (!card.isTrump())
+                cPlain++;
         }
         return cPlain;
     }
@@ -21,7 +23,8 @@ public class Hand {
         int cPlain = 0;
 
         for (Card card : cards) {
-            if (card.getColor() == color && !card.isTrump()) cPlain++;
+            if (card.getColor() == color && !card.isTrump())
+                cPlain++;
         }
 
         return cPlain;
@@ -33,7 +36,8 @@ public class Hand {
 
     public void playCard(Card card) {
         boolean removed = cards.remove(card);
-        if (!removed) throw new IllegalArgumentException("Card you want to remove did not exist in Hand");
+        if (!removed)
+            throw new IllegalArgumentException("Card you want to remove did not exist in Hand");
     }
 
     public void playCard(int index) {
