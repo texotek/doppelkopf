@@ -2,6 +2,7 @@ package de.dd.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Card {
     final private CardColor color;
@@ -43,6 +44,20 @@ public class Card {
             }
         }
         return result;
+    }
+
+    public static List<Card> mixCards(List<Card> cards) {
+        Random random = new Random();
+        for (int i = 0; i < cards.size(); i++) {
+            swap(cards, i, random.nextInt(cards.size()));
+        }
+        return cards;
+    }
+
+    private static void swap(List<Card> cards, int i, int j) {
+        Card temp = cards.get(i);
+        cards.set(i, cards.get(j));
+        cards.set(j, temp);
     }
 
     @Override

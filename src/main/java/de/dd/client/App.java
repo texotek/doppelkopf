@@ -13,7 +13,6 @@ public class App {
 
     public App() {
         view = new MainView();
-        game = new DoppelkopfGame(null);
     }
 
     public static void main(String[] args) {
