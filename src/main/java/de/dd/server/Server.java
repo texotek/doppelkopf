@@ -21,18 +21,12 @@ public class Server {
         } catch (IOException e) {
             IO.println(e);
         }
-
         clients = new ArrayList<>();
-
-        IO.println("This Server is so what from starting");
-
-        waitForPlayers();
-
         IO.println("Ending Server");
     }
 
-    private void waitForPlayers() {
-        for (int i = 0; i < 4; i++) {
+    public void waitForPlayers() {
+        for (; clients.size() < 4;) {
             Socket connection;
             PrintWriter out;
             BufferedReader in;
@@ -46,8 +40,7 @@ public class Server {
                 IO.println(e);
                 return;
             }
-            if (!registerNewPlayer(in, out, connection))
-                i--;
+            registerNewPlayer(in, out, connection);
         }
     }
 
@@ -72,11 +65,19 @@ public class Server {
             out.print("ERR invalid name");
         }
         String name = cmd.substring(5);
-        Client client = new Client(name, in, out, connection);
+        Client client = new Client(name, in, out, connection, new Player());
         this.clients.add(client);
         IO.println("New player registered");
         IO.println(client);
         return true;
+    }
+
+    public void startGame() {
+        List<Player> players = new ArrayList<>();
+        for (Client c : clients) {
+            players.add(c.player);
+        }
+        game = new DoppelkopfGame(players);
     }
 
 }

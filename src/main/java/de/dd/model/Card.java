@@ -46,6 +46,15 @@ public class Card {
         return result;
     }
 
+    public static List<Hand> getMixedHands() {
+        List<Card> cards = mixCards(getCards());
+        List<Hand> hands = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            hands.add(new Hand(cards.subList(12 * i, 12 * (i + 1))));
+        }
+        return hands;
+    }
+
     public static List<Card> mixCards(List<Card> cards) {
         Random random = new Random();
         for (int i = 0; i < cards.size(); i++) {

@@ -16,4 +16,16 @@ public class Player {
     public String toString() {
         return "Player: " + "\n" + "Score: " + score + "\n" + hand;
     }
+
+    public List<Card> getWoncCards() {
+        return woncCards;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void addWonCards(List<Card> cards) {
+        woncCards.addAll(cards);
+    }
 }
