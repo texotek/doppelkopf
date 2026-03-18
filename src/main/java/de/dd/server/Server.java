@@ -5,8 +5,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dd.model.DoppelkopfGame;
-import de.dd.model.Player;
+import de.dd.model.*;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 
 public class Server {
     private final int PORT = 14465;
@@ -73,11 +74,22 @@ public class Server {
     }
 
     public void startGame() {
+        Jsonb jsonb = JsonbBuilder.create();
         List<Player> players = new ArrayList<>();
         for (Client c : clients) {
             players.add(c.player);
         }
+        List<Hand> hands = Card.getMixedHands();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+
+        }
+        for (int i = 0; i < 4; i++) {
+            players.get(i).hand = hands.get(i);
+        }
         game = new DoppelkopfGame(players);
+        IO.println(jsonb.toJson(game));
     }
 
 }

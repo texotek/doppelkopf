@@ -3,7 +3,7 @@ package de.dd.model;
 import java.util.List;
 
 public class Hand {
-    final private List<Card> cards;
+    private List<Card> cards;
 
     public Hand(List<Card> cards) {
         this.cards = cards;
@@ -45,6 +45,14 @@ public class Hand {
         } catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Card you want to remove did not exist in Hand");
         }
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     @Override
