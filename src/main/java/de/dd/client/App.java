@@ -31,10 +31,14 @@ public class App {
             IO.println(e);
         }
         connectToServer();
+        Thread ui = new Thread(() -> {
+            view.main();
+        });
     }
 
     private void connectToServer() {
-        out.println("JOIN test1");
+        String name = view.askForName();
+        out.println("JOIN " + name);
         IO.println("joined");
         String cmd;
         try {

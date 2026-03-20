@@ -18,4 +18,21 @@ public class MainView extends JFrame {
     public void showWindow() {
         this.setVisible(true);
     }
+
+    public String askForName() {
+        String name = (String) JOptionPane.showInputDialog(
+                this,
+                "Name",
+                "Enter your name",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "");
+
+        return name == null ? "" : name.trim();
+    }
+
+    public void main() {
+        showWindow();
+    }
 }

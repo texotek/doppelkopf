@@ -27,6 +27,12 @@ public class Server {
     }
 
     public void waitForPlayers() {
+        for (Client c : clients) {
+            Socket socket = c.connection;
+            if (!socket.isConnected())
+                clients.remove(c);
+        }
+
         for (; clients.size() < 4;) {
             Socket connection;
             PrintWriter out;
@@ -41,39 +47,69 @@ public class Server {
                 IO.println(e);
                 return;
             }
-            registerNewPlayer(in, out, connection);
+            try {
+                registerNewPlayer(in, out, connection);
+            } catch (SocketException e) {
+                IO.println("Got one");
+            }
         }
     }
 
-    private boolean registerNewPlayer(BufferedReader in, PrintWriter out, Socket connection) {
+    private boolean registerNewPlayer(BufferedReader in, PrintWriter out, Socket connection) throws SocketException {
         String cmd;
         IO.println("Registering new Player");
-        try {
-            cmd = in.readLine();
-            IO.println(cmd);
-        } catch (IOException e) {
-            IO.println(e);
-            out.print("ERR connection");
-            return false;
+        String name;
+        while (true) {
+            try {
+                cmd = in.readLine();
+                IO.println(cmd);
+            } catch (IOException e) {
+                IO.println(e);
+                out.print("ERR connection");
+                return false;
+            }
+            if (!cmd.startsWith("JOIN")) {
+                IO.println(cmd);
+                out.print("ERR invalid cmd");
+                return false;
+            }
+            if (cmd.length() < 7) {
+                IO.println(cmd);
+                out.print("ERR invalid name");
+                continue;
+            }
+            name = cmd.substring(5);
+            boolean taken = false;
+            for (Client c : clients) {
+                if (c.name == name) {
+                    out.println("ERR username taken");
+                    taken = true;
+                    break;
+                }
+            }
+            if (!taken) {
+                break;
+            }
         }
-        if (!cmd.startsWith("JOIN")) {
-            IO.println(cmd);
-            out.print("ERR invalid cmd");
-            return false;
-        }
-        if (cmd.length() < 7) {
-            IO.println(cmd);
-            out.print("ERR invalid name");
-        }
-        String name = cmd.substring(5);
         Client client = new Client(name, in, out, connection, new Player());
+        int id = this.clients.size();
         this.clients.add(client);
+        out.println("SUCCESS " + id);
         IO.println("New player registered");
         IO.println(client);
         return true;
     }
 
     public void startGame() {
+        IO.println("New Game starting");
+        for (Client c : clients) {
+            IO.println(c.name + ": " + (c.connection));
+            try {
+                c.out.println("Test");
+            } catch (Exception e) {
+                IO.println(e);
+            }
+        }
         Jsonb jsonb = JsonbBuilder.create();
         List<Player> players = new ArrayList<>();
         for (Client c : clients) {
